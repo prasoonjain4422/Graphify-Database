@@ -1,0 +1,1 @@
+mysql -h sql6.freesqldatabase.com -u sql6442601 -p -D sql6442601;

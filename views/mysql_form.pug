@@ -1,0 +1,303 @@
+doctype html 
+html 
+    head 
+        title
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js")
+        link(rel="stylesheet", href="css/bootstrap.min.css")
+    body
+    
+        nav(class=" justify-content-md-center navbar navbar-light bg-success p-2 rounded" style="--bs-bg-opacity: 0.2")
+            h5 
+                i   A Visualization of your Database !
+        br
+        div(class="container-lg justify-content-md-center border-top border-start border-end border-success border-2 rounded-3")
+            
+            nav(class="navbar navbar-dark bg-light")
+                h1 Continue...
+            
+
+            div(id="isdb" style="" )
+                br
+                br
+                div(class="bg-success p-2" style="--bs-bg-opacity: .1")
+                    form(action = "/", method = "get", class = "form-signin" center)
+                        nav(class="navbar row")
+                            h2(style="color:green" class=" col-sm-9") Database selected      - #{dbv} (#{selectedDbType})
+                            //- h2(style="color:green" class=" col-sm-9") -> #{selectedTab}
+                            //- button(onclick="goBack2()" class="btn btn-sm btn-outline-success col-sm-2") << Re-select table
+                            button(type="submit" class="btn btn-sm btn-outline-success col-sm-2") << Re-select Database
+                            br
+
+            br
+            div(id="istab" style="display:none" )
+                div(class="bg-success p-2" style="--bs-bg-opacity: .1")
+                    form(action = "/", method = "POST", class = "form-signin" center)
+                        nav(class="navbar row")
+                            h2(style="color:green" class=" col-sm-9") Relation/Table selected - #{selectedTab}
+                            //- h2(style="color:green" class=" col-sm-9") -> #{selectedTab}
+                            //- button(onclick="goBack2()" class="btn btn-sm btn-outline-success col-sm-2") << Re-select table
+                            button(type="submit" class="btn btn-sm btn-outline-success col-sm-2") << Re-select Relation/Table
+                            br
+
+            br
+            div(id="isfie" style="display:none")
+                div(class="bg-success p-2" style="--bs-bg-opacity: .1")
+                    form(action = "/mysql_field", method = "POST", class = "form-signin" center)
+                        nav(class="navbar row")
+                            h2(style="color:green" class=" col-sm-9") Column/Field selected   - #{selectedFie}
+                            //- h2(style="color:green" class=" col-sm-9")  -> #{selectedFie}
+                            //- button(onclick="goBack()" class="btn btn-sm btn-outline-success col-sm-2") << Re-select field
+                            button(type="submit" class="btn btn-sm btn-outline-success col-sm-2") << Re-select Column/Field
+                            br
+            
+            div( id="tab" style="")
+                form( action='/mysql_field' method="post" class = "form-signin" center)
+                    br
+                    br
+                    div(class="input-group input-group-lg")
+                        div(class="input-group-prepend")
+                            span(class="input-group-text" id="inputGroup-sizing-lg") Choose Relation/Table
+                            select(name="table" class="btn btn-light btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value ="C" selected)
+                                
+                                each variable in tabs
+                                    option(value= variable.tables ) #{variable.tables}
+                    
+                    br
+                    br
+                    button( class="btn btn-secondary") Continue
+                
+                
+            div( id="fld" style="display:none")
+                form( action='/mysql_graph' method="post" class = "form-signin" center)
+                    br
+                    br
+                    div(class="input-group input-group-lg" id="fld")
+                        div(class="input-group-prepend")
+                            span(class="input-group-text" id="inputGroup-sizing-lg") Choose Field/Column
+                            select(name="field" class="btn btn-light btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" default="Choose database")
+                            
+                                each variable in fies
+                                    option(value= variable.COLUMN_NAME ) #{variable.COLUMN_NAME}
+                
+                    br
+                    br
+                    button( class="btn btn-secondary") Continue
+
+            br
+            br
+            br
+            div( position="absolute" right="500px")
+            
+                canvas(class="d-block" id="myChart" style="width:100%;max-width:800px")
+            
+            
+            
+            
+        br
+            //- div(style="backgroundColor: Gainsboro, display: block, padding: '', height: , width: 100%")
+        //- div(class=" bg-success p-2 rounded" style="--bs-bg-opacity: 75")
+        div(class="bg-success p-2" style="--bs-bg-opacity: .9")
+            div( class="bg-secondary p-2" style="--bs-bg-opacity: 75, borderTop: 1px solid #E7E7E7, textAlign: center, padding: 20px, left: 0, bottom: 0, height: 400px, width: 100%")
+                div(class="row")
+                    div(class="col-sm-4")
+                        div(class="row ml-auto ")
+                            //- Image(
+                            //-     roundedCircle
+                            //-     class="mr-auto"
+                            //-     height="40"
+                            //-     width="10"
+                            //-     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRV0Kt8i5gW1_qB6Zk__zKDiIXuNESWgwkUig&usqp=CAU"
+                            //- )
+                        div(class="row ml-auto ")
+                            p
+                                small © 2021 Copyright Graphify Database
+                    div(class="col ml-3")
+                        div(class="row")
+                            h4(style=" position: center, color: Smokewhite ") About
+                        br
+                        div(class="row")
+                            a(href="" style=" color: LightGrey ") Prasoon Jain
+                        br
+                        div(class="row")
+                            a(href="" style=" color: LightGrey ") IET DAVV,
+                                br
+                                |Indore
+                        br
+                    div(class="col")
+                        div(class="row")
+                            h4(style=" color: Smokewhite ") Contact
+                        br
+                        div(class="row")
+                            a(href="" style=" color: LightGrey ") Facebook
+                        br
+                        div(class="row")
+                            a(href="" style=" color: LightGrey ") Instagram
+                        br
+                        div(class="row")
+                            a(href="" style=" color: LightGrey ") Linked!n
+                        br
+                        div(class="row")
+                            a(href="" style=" color: LightGrey ") Twitter
+                        
+                    div(class="col")
+                        div(class="row")
+                            h4(style=" color: Smokewhite ") Products
+                        br
+                        div(class="row")
+                            a(href="" style=" color: LightGrey ") Optimal-Time-Table-Generator
+                        br
+                        div(class="row")
+                            a(href="" style=" color: LightGrey ") Graphify Database
+                        br
+                        div(class="row")
+                            a(href="" style=" color: LightGrey ") econtinuum
+                        br
+                        div(class="row")
+                            a(href="" style=" color: LightGrey ") Xmeme
+            
+            
+            
+            
+            //- script(id='field-source', data-fields=JSON.stringify(dis))
+            script            
+                
+                //- |function refre() {
+                //- //- |location.reload();
+                //- |};
+                
+                //- |function goBack() {
+                //- //- |window.location.reload(history.back());
+                //- |window.history.back();
+                //- //- |refre();
+                //- |};
+                
+                //- |function goBack2() {
+                //- |
+                //- |if( #{flag} == 2) {
+                //- |window.history.back();
+                //- |window.history.back();
+                //- |}
+                //- |else if( #{flag} >= 1) {
+                //- |window.history.back();
+                //- |}
+                //- //- |refre();
+                //- |};
+                
+                
+                
+                |if( #{flag} >= 1) {
+                |document.getElementById('fld').style.display = "";
+                |document.getElementById('tab').style.display = "none";
+                |document.getElementById('istab').style.display = "";
+                |}
+                
+                
+                |if( #{flag} == 2) {
+                |
+                |
+                |document.getElementById('fld').style.display = "none";
+                |document.getElementById('isfie').style.display = "";
+                |let myChart = document.getElementById('myChart').getContext('2d');
+                //- |myChart.class = "d-none";
+                |let massPopChart = new Chart(myChart, {
+                |type: 'bar',
+                |data: {
+                //- |labels: ['Boston', 'summer', 'winter', 'spring'],
+                //- |labels: `#{dis}`,
+                |labels: [
+                - dis.forEach((item) => {
+                | `#{item}`,
+                - });
+                |],
+                |datasets: [{
+                |label: "Frequency",
+                
+                |data: [
+                - data.forEach((item) => {
+                | `#{item}`,
+                - });
+                |],
+                |
+                |
+                //- |backgroundColor: (() => {
+                //- -var bgcolors = [];
+                //- -for (let i=0; i < dis.length; ++i)
+                //- -(`${bgcolors}`)[`#{i}`] = (`#{colors}`[`#{i}` % `#{colors}`.length]);
+                //- -return bgcolors;
+                //- |})()
+                //- |backgroundColor: [
+                //- -bgcolors.forEach((item) =>{
+                //- |   `#{item}`,
+                //- |});
+                //- |]
+                //- |strokeColor: "black",
+                |borderColor: "rgba(54, 162, 35, 0.9)",
+                |borderWidth: 2,
+                |backgroundColor: 
+                //- |[
+                //- |'rgba(255, 99, 132, 0.6)'
+                |'rgba(54, 162, 35, 0.5)',
+                //- |'rgba(54, 162, 35, 0.6)',
+                //- |'rgba(54, 162, 35, 0.6)',
+                //- |'rgba(54, 162, 35, 0.6)',
+                //- |'rgba(54, 162, 35, 0.6)',
+                //- |'rgba(54, 162, 35, 0.6)',
+                //- |'rgba(54, 162, 35, 0.6)',
+                //- |'rgba(54, 162, 35, 0.6)',
+                //- |'rgba(54, 162, 35, 0.6)',
+                //- |'rgba(54, 162, 35, 0.6)',
+                //- |'rgba(54, 162, 35, 0.6)',
+                //- |'rgba(54, 162, 35, 0.6)',
+                //- |'rgba(54, 162, 35, 0.6)',
+                //- |'rgba(255, 206, 86, 0.6)',
+                //- |'rgba(75, 192, 192, 0.6)',
+                //- |'rgba(153, 102, 255, 0.6)',
+                //- |'rgba(255, 159, 64, 0.6)',
+                //- |'rgba(255, 15, 64, 0.6)',
+                //- |'rgba(25, 159, 64, 0.6)',
+                //- |'rgba(215, 159, 64, 0.6)',
+                //- |'rgba(255, 14, 64, 0.6)',
+                //- |'rgba(255, 18, 74, 0.6)',
+                //- |'rgba(25, 159, 64, 0.6)',
+                //- |'rgba(155, 99, 132, 0.6)'
+                //- |]
+                |}]
+                |},
+                |options:{
+                |scales:{
+                |yAxes:[{
+                |ticks:{
+                |beginAtZero: true
+                //- - callback: function(value, index){
+                //- - console.log(this.getLabelForValue(index))
+                //- - return 'dfkuh'
+                //- - }
+                |}
+                |}]
+                |},
+                |title: {
+                |display:true,
+                |text:`#{selectedFie}`,
+                |fontSize:25
+                |},
+                |legend:{
+                |position:'left'
+                |},
+                |layout:{
+                |padding:{
+                |left:90,
+                //- |right:500
+                |}
+                |}
+                |}
+                |});
+                
+                |}
+                
+                
+                
+                
+                
+                
+                
+                
